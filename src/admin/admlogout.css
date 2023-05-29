@@ -1,0 +1,86 @@
+h1{
+    color: #9e453e;
+    font-size: 25px;
+    background-color: rgb(238, 227, 156);
+    padding: 3px 3px;
+    margin: 0px;
+}
+h2{
+    color: #9e453e;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 40px;
+    margin: 0px;
+    background-color: rgb(226, 187, 152);
+    height: 80px;
+    padding-top: 40px;
+    padding-left: 30px;
+   
+}
+
+.navbar{
+    background-color: rgb(238, 227, 156);
+    border-radius: 30px;
+}
+.navbar ul{
+    overflow: auto;
+}
+.navbar li{
+    float: left;
+    list-style: none;
+    margin: 13px 50px;
+}
+.navbar li a{
+    font-size: 20px;
+    padding: 3px 3px;
+    text-decoration: none;
+    color: #9e453e;
+}
+.navbar li a:hover{
+    background-color: rgb(226, 187, 152);
+    border-radius: 10px;
+}
+form{
+    margin: 155px 650px;
+    position: absolute;
+    background-color: rgb(226, 187, 152);
+    height: 100px;
+    width: 200px;
+    padding: 4px 9px;
+}
+h3{
+    padding-left: 7px;
+    color: #9e453e;
+    font-size: 20px;
+}
+.logoutBtn{
+    margin: 2px 8px;
+    height: 25px;
+    width: 40%;
+    border-color: none;
+    outline-color: none;
+    background: #9e453e;
+    background-size: 200%;
+    transition: 1s;
+    color: white;
+    font-size: 15px;
+}
+.logoutBtn:hover{
+    background-color: rgb(238, 227, 156);
+    color: black;
+}
+.cancelBtn{
+    
+    height: 25px;
+    width: 40%;
+    border-color: none;
+    outline-color: none;
+    background: #9e453e;
+    background-size: 200%;
+    transition: 1s;
+    color: white;
+    font-size: 15px;
+}
+.cancelBtn:hover{
+    background-color: rgb(238, 227, 156);
+    color: black;
+}

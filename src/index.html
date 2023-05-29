@@ -1,0 +1,90 @@
+<script type="module" >
+    import Axios from "axios";
+
+    const Axios = require("axios")
+    const [email, setEmail] ="";
+    const [username, setUsername] ="";
+    const [password, setPassword] ="";
+    const [loginStatus, setLoginStatus] ="";
+    const [ registerStatus, setRegisterStatus]="";
+
+    const register =(e) =>{
+        e.preventDefault();
+        Axios.post("http://localhost:3001/register",{
+            email: email,
+            username: username,
+            password: password
+        }).then((response) => {
+            if(response.data.message){
+                setRegisterStatus(response.data.message);
+                console.log("sucess");
+            }else{
+                setRegisterStatus("ACCOUNT CREATED SUCCESSFULLY");
+            }
+        })
+    }
+
+    const login =(e) =>{
+        e.preventDefault();
+        Axios.post("http://localhost:3001/login",{
+            username: username,
+            password: password
+        }).then((response) => {
+            if(response.data.message){
+                setLoginStatus(response.data.message);
+            }else{
+                setLoginStatus(response.data[0].email);
+            }
+        })
+
+    }
+</script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="background">
+            
+        </div>
+        <div class="background-image">
+
+        </div>
+        <form class="form1">
+            <h1>Login</h1>
+            <div class="textBoxdiv">
+                <input type="text" name="Username" onchange='{(e) => {setUsername(e.target.value)}}' placeholder="Enter Username">
+            </div>
+            <div class="textBoxdiv">
+                <input type="password"  onchange='{(e) => {setPassword(e.target.value)}}' placeholder="Enter password">
+            </div>
+            <div class="select">
+                <select name="format" id="format">
+                    <option selected disabled>Usertype</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Student">Student</option>
+                </select>
+            </div>
+            <input type="submit" value="Login" class="loginBtn" onclick= {login}>
+        </form1>
+        <form2>
+            <h4>Register</h4>
+            <div class="textBoxdiv">
+                <input type="text" onchange='{(e) => {setEmail(e.target.value)}}' placeholder="Enter email">
+            </div>
+            <div class="textBoxdiv">
+                <input type="text" onchange='{(e) => {setUsername(e.target.value)}}' placeholder="Enter Username">
+            </div>
+            <div class="textBoxdiv">
+                <input type="password"onchange='{(e) => {setPassword(e.target.value)}}' placeholder="Enter Username">
+            </div>
+            <input type="submit" value="Register" class="regBtn" onclick= {register}>
+        </form2>
+        <input type=button onClick="parent.location='student.html'"
+ value='click here'></input>
+    </body>
+   
+</html>
