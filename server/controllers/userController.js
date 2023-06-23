@@ -15,6 +15,12 @@ exports.homePage = (req, res) => {
 exports.adminlogin = (req, res) => {
   res.render("loginpage");
 };
+exports.studentlogin = (req, res) => {
+  res.render("loginpage");
+};
+exports.facultylogin = (req, res) => {
+  res.render("loginpage");
+};
 exports.studentRegisterForm = (req, res) => {
   res.render("studentRegister");
 };
@@ -102,7 +108,7 @@ exports.studentRegister = (req, res) => {
 
   // User the connection
   connection.query(
-    "INSERT INTO managment SET Type = 'student', Username = ?, Registerno = ?, Department = ?, Admissionno = ?, DOB = ?, Gender = ?, Religion = ?, Aadhar = ?, Bloodgroup = ?, Phoneno = ?, Email = ?, Address = ?, psw = ?,Semester = ''   ",
+    "INSERT INTO students SET Type = 'student', Username = ?, Registerno = ?, Department = ?, Admissionno = ?, DOB = ?, Gender = ?, Religion = ?, Aadhar = ?, Bloodgroup = ?, Phoneno = ?, Email = ?, Address = ?, psw = ?,Semester = ''   ",
     [
       studentName,
       registerNo,
@@ -179,7 +185,7 @@ exports.facultyRegister = (req, res) => {
 exports.edit = (req, res) => {
   // User the connection
   connection.query(
-    "SELECT * FROM managment WHERE username = '" + req.query.username + "'",
+    "SELECT * FROM students WHERE username = '" + req.query.username + "'",
     (err, rows) => {
       if (!err) {
         console.log("blaaalollll", rows);
@@ -279,16 +285,31 @@ exports.viewall = (req, res) => {
 };
 exports.loginuser = (req, res) => {
   const reqname = req.query.username;
-  console.log("lolllll", reqname);
+  var db_select = "";
+
+  if (req.get("Referrer") === "http://localhost:5000/adminlogin") {
+    db_select = "admin";
+  }
+  if (req.get("Referrer") === "http://localhost:5000/studentlogin") {
+    db_select = "students";
+  }
+  if (req.get("Referrer") === "http://localhost:5000/facultylogin") {
+    db_select = "managment";
+  }
+  console.log("bkoooo", db_select);
+  //if(req.query.username)
   // User the connection
   connection.query(
-    "SELECT * FROM managment WHERE username = '" + req.query.username + "'",
+    "SELECT * FROM " +
+      db_select +
+      " WHERE username = '" +
+      req.query.username +
+      "'",
     (err, rows) => {
       if (!err) {
-        console.log("row lolll", rows[0].password);
         if (req.query.psw === rows[0].psw && rows[0].Type === "student") {
           res.render("loggedInStudent", { rows });
-        } else if (rows[0].Type === "admin" && req.query.psw === rows[0].psw) {
+        } else if (db_select === "admin" && req.query.psw === rows[0].psw) {
           res.render("facultyRegister");
         } else if (
           rows[0].Type === "faculty" &&

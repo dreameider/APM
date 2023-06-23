@@ -5,6 +5,8 @@ const userController = require("../controllers/userController");
 // Routes
 router.get("/", userController.homePage);
 router.get("/adminlogin", userController.adminlogin);
+router.get("/studentlogin", userController.adminlogin);
+router.get("/facultylogin", userController.adminlogin);
 router.get("/studentregister", userController.studentRegisterForm);
 //router.get("/facultyregister", userController.facultyRegisterForm);
 router.post("/", userController.find);
