@@ -1,6 +1,9 @@
+const express = require("express");
+const app = express();
+const bodyparser = require("body-parser");
 const mysql = require("mysql");
-const bodyParser = require("body-parser");
-
+const multer = require("multer");
+const path = require("path");
 // Connection Pool
 let connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -8,9 +11,58 @@ let connection = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
+// body-parser middleware use
+app.use(bodyparser.json());
+app.use(
+  bodyparser.urlencoded({
+    extended: true,
+  })
+);
+
+/*connection.connect(function (err) {
+  if (err) {
+    return console.error("error: " + err.message);
+  }
+  console.log("Connected to the MySQL server.");
+});*/
+
+//! Use of Multer
+var storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+    callBack(null, "./uploads"); // './public/images/' directory name where save the file
+  },
+  filename: (req, file, callBack) => {
+    callBack(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+var storage_download = multer.diskStorage({
+  destination: (req, file, callBack) => {
+    callBack(null, "./download"); // './public/images/' directory name where save the file
+  },
+  filename: (req, file, callBack) => {
+    callBack(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+var upload = multer({
+  storage: storage,
+});
+var download = multer({
+  storage: storage_download,
+});
 
 exports.homePage = (req, res) => {
   res.render("homePage");
+};
+exports.uploadfile = (req, res) => {
+  console.log("yessssss");
+  res.render("uploadfiles");
 };
 exports.adminlogin = (req, res) => {
   res.render("loginpage");
@@ -283,6 +335,59 @@ exports.viewall = (req, res) => {
     }
   );
 };
+
+(exports.download = download.single("image")),
+  (req, res) => {
+    console.log("username:");
+    //@type   POST
+    //route for post data
+    console.log("req: ", req);
+    const username = req.get("Referrer"),
+      indexOfQm = username.indexOf("?username=");
+    const loll = username
+      .split("")
+      .slice(indexOfQm + 1)
+      .join("");
+
+    console.log(req.file.filename);
+    var imgsrc = "http://localhost:5000/uploads/" + req.file.filename;
+    var insertData = "INSERT INTO students ";
+    connection.query(
+      "UPDATE students SET DOC = " + imgsrc + " WHERE Username='lol'",
+      (err, result) => {
+        if (err) throw err;
+        console.log("file uploaded");
+      }
+    );
+
+    console.log("yess save loll");
+  };
+(exports.save = upload.single("image")),
+  (req, res) => {
+    console.log("username:");
+    //@type   POST
+    //route for post data
+    console.log("req: ", req);
+    const username = req.get("Referrer"),
+      indexOfQm = username.indexOf("?username=");
+    const loll = username
+      .split("")
+      .slice(indexOfQm + 1)
+      .join("");
+
+    console.log(req.file.filename);
+    var imgsrc = "http://localhost:5000/uploads/" + req.file.filename;
+    var insertData = "INSERT INTO students ";
+    connection.query(
+      "UPDATE students SET DOC = " + imgsrc + " WHERE Username='lol'",
+      (err, result) => {
+        if (err) throw err;
+        console.log("file uploaded");
+      }
+    );
+
+    console.log("yess save loll");
+  };
 exports.loginuser = (req, res) => {
   const reqname = req.query.username;
   var db_select = "";
