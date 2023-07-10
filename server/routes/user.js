@@ -8,10 +8,13 @@ router.get("/adminlogin", userController.adminlogin);
 router.get("/studentlogin", userController.adminlogin);
 router.get("/facultylogin", userController.adminlogin);
 router.get("/studentregister", userController.studentRegisterForm);
+router.get("/facultygetstudent", userController.facultygetstudent);
+router.get("/getStudent", userController.getstudent);
 //router.get("/facultyregister", userController.facultyRegisterForm);
 //router.post("/", userController.find);
 router.get("/adduser", userController.form);
 router.get("/loggedinuser", userController.loginuser);
+router.post("/studentmark", userController.studentmark);
 router.post("/save", userController.save);
 router.post("/download", userController.download);
 

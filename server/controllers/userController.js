@@ -71,13 +71,57 @@ exports.studentlogin = (req, res) => {
   res.render("loginpage");
 };
 exports.facultylogin = (req, res) => {
-  res.render("loginpage");
+  res.render("teacherloggedin");
 };
 exports.studentRegisterForm = (req, res) => {
   res.render("studentRegister");
 };
 exports.facultyRegisterForm = (req, res) => {
   res.render("facultyRegister");
+};
+
+exports.getstudent = (req, res) => {
+  res.render("getstudent");
+  /*connection.query(
+    "SELECT * FROM " + "students" + " WHERE username = '" + "lol"
+  );*/
+};
+exports.studentmark = (req, res) => {
+  const username = req.get("Referrer"),
+    indexOfQm = username.indexOf("?username=");
+  const loll = username
+    .split("")
+    .slice(indexOfQm + 10)
+    .join("");
+  console.log("yrrrrrr", loll);
+  console.log("yrrrrrr", req.body.comment);
+  console.log("yrrrrrr", req.body.mark);
+
+  connection.query(
+    "UPDATE students SET mark='" +
+      req.body.mark +
+      "', comment='" +
+      req.body.comment +
+      "' WHERE Username='" +
+      loll +
+      "'"
+  );
+  console.log("ggggg");
+};
+
+exports.facultygetstudent = (req, res) => {
+  connection.query(
+    "SELECT * FROM " +
+      "students" +
+      " WHERE username = '" +
+      req.query.username +
+      "'",
+    (err, rows) => {
+      if (!err) {
+        res.render("facultygetstudent", { rows });
+      }
+    }
+  );
 };
 
 // View Users
@@ -388,6 +432,7 @@ exports.viewall = (req, res) => {
 
     console.log("yess save loll");
   };
+
 exports.loginuser = (req, res) => {
   const reqname = req.query.username;
   var db_select = "";
@@ -420,7 +465,7 @@ exports.loginuser = (req, res) => {
           rows[0].Type === "faculty" &&
           req.query.psw === rows[0].psw
         ) {
-          res.render("studentRegister");
+          res.render("teacherloggedin");
         } else {
           console.log("blaalollll");
 
